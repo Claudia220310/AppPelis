@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>MI APP DE PELÍCULAS</ion-title>
+        <ion-title>APP DE PELÍCULAS</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
