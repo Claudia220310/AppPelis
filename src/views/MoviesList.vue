@@ -2,11 +2,14 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Películas</ion-title>
+        <ion-buttons slot="start">
+          <ion-button @click="goHome">IR AL INICIO</ion-button>
+        </ion-buttons>
+        <ion-title class="title">{{ getTitle() }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="grid">
+      <div class="movies-grid">
         <MovieCard
           v-for="movie in movies"
           :key="movie.id"
@@ -14,11 +17,13 @@
           @click="goToMovieDetail(movie.id)"
         />
       </div>
-      <ion-pagination
-        :totalPages="totalPages"
-        :currentPage="currentPage"
-        @page-changed="handlePageChanged"
-      />
+      <div class="pagination">
+        <ion-pagination
+          :totalPages="totalPages"
+          :currentPage="currentPage"
+          @page-changed="handlePageChanged"
+        />
+      </div>
       <div v-if="error">
         <p>{{ error }}</p>
       </div>
@@ -32,17 +37,19 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '@/services/api';
 import MovieCard from '@/components/MovieCard.vue';
 import IonPagination from '@/components/IonPagination.vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons } from '@ionic/vue';
 
 export default defineComponent({
   components: {
     MovieCard,
     IonPagination,
     IonPage,
+    IonContent,
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent,
+    IonButton,
+    IonButtons
   },
   setup() {
     const route = useRoute();
@@ -52,6 +59,12 @@ export default defineComponent({
     const totalPages = ref(5);
     const currentPage = ref(1);
     const error = ref<string | null>(null);
+    const genres = ref<any[]>([]); // Aquí se cargan los géneros
+
+    // Obtiene géneros desde la API
+    const fetchGenres = async () => {
+      genres.value = await api.getGenres();
+    };
 
     const fetchMovies = async () => {
       try {
@@ -74,7 +87,7 @@ export default defineComponent({
         movies.value = fetchedMovies;
         error.value = null;
       } catch (err) {
-        console.error('Error fetching movies:', err);
+        console.error('Error al recuperar películas:', err);
         error.value = 'Error al obtener películas. Por favor, inténtelo de nuevo más tarde.';
       }
     };
@@ -88,17 +101,40 @@ export default defineComponent({
       fetchMovies();
     };
 
+    const goHome = () => {
+        router.push({ name: 'HomePage' });
+      };  
+
+    const getTitle = () => {
+      const filter = route.query.filter as string;
+      const id = route.query.id as string;
+
+      if (filter === 'genre' && id) {
+        const genre = genres.value.find((g: any) => g.id.toString() === id);
+        return genre ? `Películas del Género: ${genre.name}` : 'Películas por Género';
+      } else if (filter === 'now_playing') {
+        return 'Películas en Cartelera';
+      } else if (filter === 'top_rated') {
+        return 'Mejor Calificadas';
+      } else if (filter === 'popular') {
+        return 'Películas Populares';
+      } else {
+        return 'Películas';
+      }
+    };
+
     onMounted(() => {
       if (route.query.filter) {
         fetchMovies();
       }
+      fetchGenres();
     });
 
     watch(
       () => [route.query.filter, route.query.id],
       () => {
         if (route.query.filter) {
-          currentPage.value = 1; // Reset to first page when filters change
+          currentPage.value = 1; 
           fetchMovies();
         }
       },
@@ -111,17 +147,32 @@ export default defineComponent({
       currentPage,
       error,
       goToMovieDetail,
-      handlePageChanged
+      handlePageChanged,
+      getTitle,
+      goHome
     };
   }
 });
 </script>
 
 <style scoped>
-.grid {
+.title{
+  text-align: center;
+}
+.movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-  padding: 16px;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.pagination ion-pagination {
+  max-width: 300px;
 }
 </style>

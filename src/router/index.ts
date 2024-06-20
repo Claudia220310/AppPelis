@@ -23,12 +23,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/movie/:id',
     name: 'MovieDetail',
     component: MovieDetail,
-    props: true
+    props: route => ({
+      filter: route.query.filter,
+      id: route.query.id
+    })
   }
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // Ajusta esto según tus necesidades
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
 
