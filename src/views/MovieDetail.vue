@@ -60,17 +60,17 @@ export default defineComponent({
     const baseImgUrl = api.baseImgUrl();
 
     const fetchMovieDetail = async () => {
-      try {
-        const movieId = route.params.id;
-        if (movieId) {
+      const movieId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id; // Convertir a string si es necesario
+      if (movieId) {
+        try {
           movie.value = await api.getMovieDetail(movieId);
           const trailers = await api.getMovieTrailer(movieId);
           trailer.value = trailers.length > 0 ? trailers[0] : null;
-        } else {
-          console.error('Movie ID is undefined or null:', movieId);
+        } catch (error) {
+          console.error('Error fetching movie details:', error);
         }
-      } catch (error) {
-        console.error('Error fetching movie details:', error);
+      } else {
+        console.error('Movie ID is undefined or null:', movieId);
       }
     };
 
