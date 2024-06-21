@@ -36,18 +36,18 @@ ion-card {
 .genre-content {
   white-space: normal; /* Permite que el texto se divida en varias líneas si es necesario */
   text-align: center;
-  font-size: 1rem; /* Ajusta el tamaño del texto según sea necesario */
-  word-wrap: break-word; /* Asegura que las palabras largas se dividan correctamente */
+  font-size: 1rem; 
+  word-wrap: break-word; 
 }
 
 @media (max-width: 600px) {
   ion-card {
-    margin: 0.25rem; /* Reduce el margen para pantallas más pequeñas */
-    padding: 0.5rem; /* Ajusta el padding para pantallas más pequeñas */
+    margin: 0.25rem; 
+    padding: 0.5rem; 
   }
   
   .genre-content {
-    font-size: 0.875rem; /* Reduce el tamaño del texto para pantallas más pequeñas */
+    font-size: 0.875rem; 
   }
 }
 </style>
