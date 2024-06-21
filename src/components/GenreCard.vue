@@ -1,6 +1,6 @@
 <template>
   <ion-card @click="$emit('select-genre', genre.id)">
-    <ion-card-content>{{ genre.name }}</ion-card-content>
+    <ion-card-content class="genre-content">{{ genre.name }}</ion-card-content>
   </ion-card>
 </template>
 
@@ -26,5 +26,28 @@ export default defineComponent({
 ion-card {
   cursor: pointer;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin: 0.5rem;
+}
+
+.genre-content {
+  white-space: normal; /* Permite que el texto se divida en varias líneas si es necesario */
+  text-align: center;
+  font-size: 1rem; /* Ajusta el tamaño del texto según sea necesario */
+  word-wrap: break-word; /* Asegura que las palabras largas se dividan correctamente */
+}
+
+@media (max-width: 600px) {
+  ion-card {
+    margin: 0.25rem; /* Reduce el margen para pantallas más pequeñas */
+    padding: 0.5rem; /* Ajusta el padding para pantallas más pequeñas */
+  }
+  
+  .genre-content {
+    font-size: 0.875rem; /* Reduce el tamaño del texto para pantallas más pequeñas */
+  }
 }
 </style>
