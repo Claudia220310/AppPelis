@@ -4,47 +4,18 @@
       <ion-toolbar>
         <ion-buttons slot="start">
           <GoHomeButton/>
-        </ion-buttons>
-        <ion-title>{{ movie ? movie.title : '' }}</ion-title>
+        </ion-buttons> 
       </ion-toolbar>
+      <ion-title class="title">DETALLES</ion-title>
     </ion-header>
     <ion-content v-if="movie">
       <div class="movie-detail">
         <img :src="`${baseImgUrl}${movie.poster_path}`" alt="movie poster" />
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{ movie.title }}</ion-card-title>
-            <ion-card-subtitle>{{ movie.release_date }}</ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-        <div class="buttons">
-          <ion-button @click="setTab('summary')">Resumen</ion-button>
-          <ion-button @click="setTab('genres')">Géneros</ion-button>
-          <ion-button @click="setTab('production')">Producción</ion-button>
-          <ion-button @click="setTab('trailer')">Trailer</ion-button>
+        <div class="detail">
+          <ion-card-title>{{ movie.title }}</ion-card-title>
+          <ion-card-subtitle>{{ movie.release_date }}</ion-card-subtitle>
         </div>
-        <div v-if="tab === 'summary'" class="tab-content">
-          <p>{{ movie.overview }}</p>
-        </div>
-        <div v-if="tab === 'genres'" class="tab-content">
-          <ul>
-            <li v-for="genre in movie.genres" :key="genre.id">{{ genre.name }}</li>
-          </ul>
-        </div>
-        <div v-if="tab === 'production'" class="tab-content">
-          <ul>
-            <li v-for="company in movie.production_companies" :key="company.id">{{ company.name }} ({{ company.origin_country }})</li>
-          </ul>
-        </div>
-        <div v-if="tab === 'trailer'" class="tab-content">
-          <iframe
-            v-if="trailer"
-            :src="`https://www.youtube.com/embed/${trailer.key}`"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-          <p v-else>No hay trailer disponible</p>
-        </div>
+        <MovieDetailTabs :movie="movie" :trailer="trailer" />
       </div>
     </ion-content>
     <ion-loading v-else />
@@ -55,8 +26,9 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/services/api';
-import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonLoading, IonPage, IonTitle, IonToolbar, IonButtons } from '@ionic/vue';
+import { IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonLoading, IonPage, IonTitle, IonToolbar, IonButtons } from '@ionic/vue';
 import GoHomeButton from '@/components/GoHomeButton.vue';
+import MovieDetailTabs from '@/components/MovieDetailTabs.vue';
 
 export default defineComponent({
   components: {
@@ -65,20 +37,17 @@ export default defineComponent({
     IonContent,
     IonHeader,
     IonToolbar,
-    IonCard,
     IonTitle,
-    IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
-    IonButton,
     IonButtons,
-    GoHomeButton
+    GoHomeButton,
+    MovieDetailTabs
   },
   setup() {
     const route = useRoute();
     const movie = ref<any>(null);
     const trailer = ref<any>(null);
-    const tab = ref('summary');
     const baseImgUrl = api.baseImgUrl();
 
     const fetchMovieDetail = async () => {
@@ -89,15 +58,11 @@ export default defineComponent({
           const trailers = await api.getMovieTrailer(movieId);
           trailer.value = trailers.length > 0 ? trailers[0] : null;
         } catch (error) {
-          console.error('Error fetching movie details:', error);
+          console.error('Error al recuperar los detalles de la película:', error);
         }
       } else {
-        console.error('Movie ID is undefined or null:', movieId);
+        console.error('El ID de la película no está definido o es nulo:', movieId);
       }
-    };
-
-    const setTab = (newTab: string) => {
-      tab.value = newTab;
     };
 
     onMounted(() => {
@@ -107,15 +72,22 @@ export default defineComponent({
     return {
       movie,
       trailer,
-      tab,
-      baseImgUrl,
-      setTab,
+      baseImgUrl
     };
   }
 });
 </script>
 
 <style scoped>
+.title{
+  text-align: center;
+  background-color: rgb(31, 31, 31);
+  padding-bottom: 8px;
+}
+.detail{
+  text-align: center;
+  margin-top: 15px;
+}
 .movie-detail {
   padding: 1rem;
 }
@@ -124,15 +96,5 @@ img {
   max-width: 300px;
   margin: 0 auto;
   display: block;
-  margin: 0 auto;
-}
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.tab-content {
-  margin-top: 1rem;
 }
 </style>

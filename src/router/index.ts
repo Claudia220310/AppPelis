@@ -7,7 +7,7 @@ import MovieDetail from '@/views/MovieDetail.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'HomePage',
     component: HomePage
   },
   {
@@ -23,10 +23,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/movie/:id',
     name: 'MovieDetail',
     component: MovieDetail,
-    props: route => ({
-      filter: route.query.filter,
-      id: route.query.id
-    })
+    props: true
   }
 ];
 

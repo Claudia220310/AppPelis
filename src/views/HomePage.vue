@@ -2,18 +2,14 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>MI APP DE PELÍCULAS</ion-title>
+        <ion-title>PelisClub</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <div class="genres-grid">
         <GenreCard v-for="genre in genres" :key="genre.id" :genre="genre" @select-genre="filterByGenre" />
       </div>
-      <div class="filters">
-        <ion-button @click="filterByCategory('now_playing')">Cartelera</ion-button>
-        <ion-button @click="filterByCategory('top_rated')">Mejor Calificadas</ion-button>
-        <ion-button @click="filterByCategory('popular')">Populares</ion-button>
-      </div>
+      <FilterButtons @filter-category="filterByCategory" />
     </ion-content>
   </ion-page>
 </template>
@@ -22,16 +18,17 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import api from '@/services/api';
 import GenreCard from '@/components/GenreCard.vue';
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import FilterButtons from '@/components/FilterButtons.vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 
 export default defineComponent({
   components: {
     GenreCard,
+    FilterButtons,
     IonPage,
     IonHeader,
     IonToolbar,
     IonContent,
-    IonButton,
     IonTitle
   },
   setup() {
@@ -64,12 +61,5 @@ export default defineComponent({
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   padding: 1rem;
-}
-.filters {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  margin-top: 2rem;
 }
 </style>
