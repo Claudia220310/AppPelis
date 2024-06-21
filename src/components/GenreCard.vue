@@ -5,9 +5,14 @@
 </template>
 
 <script lang="ts">
+import { IonCard, IonCardContent } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  components: {
+    IonCard,
+    IonCardContent
+  },
   props: {
     genre: {
       type: Object,
