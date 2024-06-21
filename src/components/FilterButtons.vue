@@ -27,7 +27,7 @@ export default defineComponent({
 .filters-container {
   display: flex;
   justify-content: center; /* Centra los botones horizontalmente */
-  padding: 1rem; /* Ajusta el padding para separar del borde */
+  padding: 1rem; 
   margin-top: 2rem; /* Margen superior */
 }
 
