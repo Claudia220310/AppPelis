@@ -32,6 +32,6 @@ export default defineComponent({
 }
 
 ion-button {
-  max-width: 150px; /* Ajusta según sea necesario */
+  max-width: 150px; 
 }
 </style>
