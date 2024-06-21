@@ -26,8 +26,7 @@ export default defineComponent({
 <style scoped>
 .filters-container {
   display: flex;
-<<<<<<< HEAD
-  justify-content: center; 
+  justify-content: center; /* Centra los botones horizontalmente */
   gap: 1rem; /* Espacio entre los botones */
   padding: 1rem; /* Ajusta el padding para separar del borde */
   margin-top: 2rem; 
@@ -35,17 +34,8 @@ export default defineComponent({
 }
 
 ion-button {
-  max-width: 150px; /* Ancho máximo inicial */
+  max-width: 150px; 
   flex: 1 1 auto; /* Flex-grow, flex-shrink, flex-basis */
   margin: 0.5rem; /* Margen entre los botones */
-=======
-  justify-content: center; /* Centra los botones horizontalmente */
-  padding: 1rem; 
-  margin-top: 2rem; /* Margen superior */
-}
-
-ion-button {
-  max-width: 150px; 
->>>>>>> 4c47ddf26b8d6f7e696dd9f0be7c18098963fdbd
 }
 </style>
