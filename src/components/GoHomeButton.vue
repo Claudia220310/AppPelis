@@ -31,8 +31,7 @@
   <style scoped>
   /* Estilos adicionales para el botón si son necesarios */
   ion-button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
+    font-size: 1; 
   }
   </style>
   

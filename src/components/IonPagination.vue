@@ -8,7 +8,7 @@
       </ion-buttons>
       <ion-buttons class="number-buttons">
         <ion-button
-          v-for="pageNumber in Math.min(totalPages, 10)"
+          v-for="pageNumber in visiblePages"
           :key="pageNumber"
           :class="{ 'active': pageNumber === currentPage }"
           @click="changePage(pageNumber)"
@@ -29,9 +29,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { IonButton, IonButtons, IonFooter, IonToolbar } from '@ionic/vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
+  components: {
+    IonFooter,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+  },
   props: {
     currentPage: {
       type: Number,
@@ -48,8 +55,23 @@ export default defineComponent({
       emit('page-changed', page);
     };
 
+    const visiblePages = computed(() => {
+      const pages = [];
+      const maxVisible = 5; // Ajusta este valor para mostrar más o menos botones
+      let start = Math.max(1, props.currentPage - Math.floor(maxVisible / 2));
+      const end = Math.min(props.totalPages, start + maxVisible - 1);
+      if (end - start < maxVisible - 1) {
+        start = Math.max(1, end - maxVisible + 1);
+      }
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+      return pages;
+    });
+
     return {
-      changePage
+      changePage,
+      visiblePages
     };
   }
 });
@@ -60,12 +82,14 @@ ion-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; 
 }
 
 .number-buttons {
   flex: 1;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap; 
 }
 
 .number-buttons ion-button {
@@ -84,16 +108,18 @@ ion-toolbar {
 
 .number-buttons ion-button.active {
   font-weight: bold;
+  color: green; 
 }
 
-.previous-button {
-  margin-right: auto;
-}
-
+.previous-button,
 .next-button {
-  margin-left: auto;
+  margin: 0 5px; 
 }
-.number-buttons ion-button.active {
-  color: green; /* Cambia el color activo a verde */
+
+@media (max-width: 600px) {
+  .number-buttons ion-button {
+    min-width: 25px; 
+    padding: 0 5px;  
+  }
 }
 </style>
