@@ -1,5 +1,5 @@
 <template>
-  <ion-card @click="goToDetail(movie.id)">
+  <ion-card @click="goToDetail">
     <img :src="`${baseImgUrl}${movie.poster_path}`" alt="movie poster" />
     <ion-card-header>
       <ion-card-title>{{ movie.title }}</ion-card-title>
@@ -31,8 +31,8 @@ export default defineComponent({
     const router = useRouter();
     const baseImgUrl = api.baseImgUrl();
 
-    const goToDetail = (movieId: number) => {
-      router.push({ name: 'MovieDetail', params: { id: movieId.toString() } });
+    const goToDetail = () => {
+      router.push({ name: 'MovieDetail', params: { id: props.movie.id.toString() } });
     };
 
     return {
