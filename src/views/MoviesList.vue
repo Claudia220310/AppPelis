@@ -3,10 +3,10 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button @click="goHome">IR AL INICIO</ion-button>
+          <GoHomeButton/>
         </ion-buttons>
-        <ion-title class="title">{{ getTitle() }}</ion-title>
       </ion-toolbar>
+      <ion-title class="title">{{ getTitle() }}</ion-title>
     </ion-header>
     <ion-content>
       <div class="movies-grid">
@@ -37,7 +37,8 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '@/services/api';
 import MovieCard from '@/components/MovieCard.vue';
 import IonPagination from '@/components/IonPagination.vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons } from '@ionic/vue';
+import GoHomeButton from '@/components/GoHomeButton.vue';
 
 export default defineComponent({
   components: {
@@ -48,8 +49,8 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonButton,
-    IonButtons
+    IonButtons,
+    GoHomeButton
   },
   setup() {
     const route = useRoute();
@@ -101,9 +102,7 @@ export default defineComponent({
       fetchMovies();
     };
 
-    const goHome = () => {
-        router.push({ name: 'HomePage' });
-      };  
+    
 
     const getTitle = () => {
       const filter = route.query.filter as string;
@@ -149,30 +148,32 @@ export default defineComponent({
       goToMovieDetail,
       handlePageChanged,
       getTitle,
-      goHome
+      
     };
   }
 });
 </script>
 
 <style scoped>
-.title{
-  text-align: center;
-}
-.movies-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-}
+  .title{
+    text-align: center;
+    background-color: rgb(31, 31, 31);
+    padding-bottom: 8px;
+  }
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-}
+  .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
 
-.pagination ion-pagination {
-  max-width: 300px;
-}
+  .pagination ion-pagination {
+    max-width: 300px;
+  }
 </style>
