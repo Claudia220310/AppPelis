@@ -2,11 +2,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>APP DE PELÍCULAS</ion-title>
+        <ion-title>MI APP DE PELÍCULAS</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="grid">
+      <div class="genres-grid">
         <GenreCard v-for="genre in genres" :key="genre.id" :genre="genre" @select-genre="filterByGenre" />
       </div>
       <div class="filters">
@@ -22,10 +22,17 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import api from '@/services/api';
 import GenreCard from '@/components/GenreCard.vue';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 
 export default defineComponent({
   components: {
-    GenreCard
+    GenreCard,
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonContent,
+    IonButton,
+    IonTitle
   },
   setup() {
     const genres = ref<any[]>([]);
@@ -52,7 +59,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.grid {
+.genres-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -60,7 +67,9 @@ export default defineComponent({
 }
 .filters {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 1rem;
   padding: 1rem;
+  margin-top: 2rem;
 }
 </style>
