@@ -65,13 +65,20 @@ export default defineComponent({
 </script>
   
 <style scoped>
-#summary{
+#summary {
   text-align: center;
 }
+
+.tab-content {
+  width: 70%; /* Ajusta el ancho según tus necesidades */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  border: 1px solid #000; /* Solo para visualizar el contenedor */
+}
+
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 2rem; /* Aumenta el espacio entre los botones */
   margin: 1rem 1rem; /* Añade margen lateral para asegurarte de que los botones no toquen los bordes */
   flex-wrap: wrap; /* Permite que los botones se ajusten en varias líneas si es necesario */
 }
